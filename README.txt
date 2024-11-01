@@ -26,11 +26,16 @@ The Bus Stop Builder is only an aid, not a formal design tool. Bus stop designs 
 Considerations for ADA compliance, safety, amenity size and dimension should always be included before any final bus stop amenity upgrade designs are reviewed at the city level.
 
 
+= DEPENDENCIES =
+This plugin relies on: 
+- Elementor PRO, 
+- Elementor Hello theme, 
+- "hello-theme-child-ldm" (custom child theme: https://github.com/ldm-keith/hello-theme-child-ldm)
+The child theme has support for uploading .GLB 3d files into the Media Library, as well as assigning featured images to those GLB uploads.  The bus-stop-builder plugin depends on these items to supply "amenities" 
+
 == Installation ==
 
 This section describes how to install the plugin and get it working.
-
-e.g.
 
 = Using The WordPress Dashboard =
 
