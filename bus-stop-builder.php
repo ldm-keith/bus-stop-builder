@@ -34,22 +34,35 @@ define( "BSB_DIRECTORY_BASENAME", plugin_basename( BSB_FILE ) );
 define( "BSB_DIRECTORY_PATH", plugin_dir_path( BSB_FILE ) );
 define( "BSB_DIRECTORY_URL", plugins_url( null, BSB_FILE ) );
 
-// Require the main class file [LDM] We can add full Class strucure later...
-//require_once( BSB_DIRECTORY . '/include/main-class.php' ); 
-//require_once( BSB_DIRECTORY . '/include/bsb_ajax.php' );
-//include( BSB_DIRECTORY . '/include/bsb_ajax.php' );
+
+/** Need api key from DB to include in enque scripts */ 
+$bsb_api_key_query = "
+SELECT post_content FROM wp_posts where post_type = 'bsb_info_boxes' 
+and post_status = 'publish' 
+and post_name = 'bsb_google_api_key';
+";
+function bsb_get_apikey($results){
+ global $bsb_api_key_query;
+  $output = "";
+  foreach( $results as $key => $row) {
+    $output= $row->post_content;
+  }
+  return $output;
+}
+global $wpdb;
+$results = $wpdb->get_results( $bsb_api_key_query );
+define( "BSB_GOOGLE_APIKEY", bsb_get_apikey($results) );
     
     /**
      * Enqueue the main Plugin user scripts and styles
      * @method plugin_enqueue_scripts
      */
     function bsb_enqueue_scripts() {
-     
-	    //this is loaded async, and in the footer.  Prolly shouldn't be
-		//wp_register_script( 'bsb-google-maps', "https://maps.googleapis.com/maps/api/js?key=AIzaSyANX81gIMRmmtouP1xOWB5Ajv2PrvRDL6Y&v=weekly&libraries=places&loading=async", array(), null, true );
-        wp_register_script( 'bsb-google-maps', "https://maps.googleapis.com/maps/api/js?key=AIzaSyANX81gIMRmmtouP1xOWB5Ajv2PrvRDL6Y&v=weekly&libraries=places&loading=async", array(), null );
-        //wp_register_script( 'bsb-google-maps', "https://maps.googleapis.com/maps/api/js?key=AIzaSyANX81gIMRmmtouP1xOWB5Ajv2PrvRDL6Y&v=weekly&libraries=places", array(), null );
+     	 
         
+		wp_register_script( 'bsb-google-maps', "https://maps.googleapis.com/maps/api/js?key=" . BSB_GOOGLE_APIKEY . "&v=weekly&libraries=places&loading=async", array(), null );
+        
+		
 		wp_register_style( 'bsb-user-style', BSB_DIRECTORY_URL . '/assets/index.css', array(), '1.01' );
         
 		wp_enqueue_script('bsb-google-maps');
@@ -60,7 +73,7 @@ define( "BSB_DIRECTORY_URL", plugins_url( null, BSB_FILE ) );
         wp_enqueue_script_module('bsb-user-script-module', BSB_DIRECTORY_URL . '/assets/index.js', array(), '1.56' );
 		wp_enqueue_script('bsb-custom-script-module', BSB_DIRECTORY_URL . '/assets/custom.js', array(), '0.88' );
 		//wp_enqueue_script('bsb-amenities', BSB_DIRECTORY_URL . '/assets/amenities.js.php', array(), '0.1' );
-		wp_enqueue_script('bsb-amenities', home_url() ."/wp-json/".plugin_basename(BSB_DIRECTORY). '/v1/amenities', array(), '0.1' );
+		wp_enqueue_script('bsb-amenities', home_url() ."/wp-json/".plugin_basename(BSB_DIRECTORY). '/v1/amenities', array(), '0.2' );
         wp_enqueue_script( 'ajax-script', BSB_DIRECTORY_URL. '/js/bsb_ajax.js', array('jquery') );
 		wp_enqueue_style('bsb-user-style');
 		
@@ -187,6 +200,7 @@ $bsb_info_boxes_query = "
 SELECT post_name, post_content FROM wp_posts where post_type = 'bsb_info_boxes' and post_status = 'publish';
 ";
 
+
 /**
  * [LDM] Add WP REST routes.  Used to return dynamic Javascript to the client
  *
@@ -227,7 +241,7 @@ SELECT post_name, post_content FROM wp_posts where post_type = 'bsb_info_boxes' 
 				  
 				  //Debugging
 				  //echo "/* bsb_amenity_query:\n\n" . $bsb_amenity_query ."*/ \n\n";
-				  
+				  //echo "BSB_GOOGLE_APIKEY = \"" .BSB_GOOGLE_APIKEY. "\";\n\n";
 				  
 				  exit();
 	            }//post callback function
@@ -267,29 +281,7 @@ function bsb_get_amenity_reults($results){
   return $output;
 }
 
-function bsb_get_amenity_reults_V1($results){
-  $output = "bsb_amenities = {\n";
-  $cat_last = '';
-  //while($row = mysqli_fetch_assoc($results)) {
-  foreach( $results as $key => $row) {
-    
-	$desc= preg_replace('(\n|\r\n)', "<br>", $row->description);
-	$alt_text = esc_attr($row->title);
-	$model = $row->ID .":{title:\"{$row->title}\",description:\"{$desc}\",thumb_url_full:\"{$row->thumb_url}\",model_url_full:\"{$row->model_url}\",alt_text:\"{$alt_text}\"}";
-    
-	$cat_current = $row->category;
-	if( $cat_last !=  $cat_current ){ //start of new category
-	  $output = preg_replace('/,$/', "", $output);  //finish up cat, remove comma from last model object in cat
-	  if($cat_last != ''){ $output = $output. "\n},";} //end cat (but not first cat)
-	  $cat_last =  $cat_current; //start new cat
-      	
-	  $output = $output. "\n\"" . $row->category . "\": {";
-	}
-	$output = $output. "\n". $model .",";
-  }
-  $output = preg_replace('/,$/', "\n}};\n", $output); //final cat
-  return $output;
-}
+
 
 
 function bsb_get_amenity_cat_reults($results){
