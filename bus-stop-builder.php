@@ -72,7 +72,6 @@ define( "BSB_GOOGLE_APIKEY", bsb_get_apikey($results) );
 		wp_enqueue_script( 'bsb-bs-js', "https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js", array('jquery'), null, true );
         wp_enqueue_script_module('bsb-user-script-module', BSB_DIRECTORY_URL . '/assets/index.js', array(), '1.56' );
 		wp_enqueue_script('bsb-custom-script-module', BSB_DIRECTORY_URL . '/assets/custom.js', array(), '0.88' );
-		//wp_enqueue_script('bsb-amenities', BSB_DIRECTORY_URL . '/assets/amenities.js.php', array(), '0.1' );
 		wp_enqueue_script('bsb-amenities', home_url() ."/wp-json/".plugin_basename(BSB_DIRECTORY). '/v1/amenities', array(), '0.2' );
         wp_enqueue_script( 'ajax-script', BSB_DIRECTORY_URL. '/js/bsb_ajax.js', array('jquery') );
 		wp_enqueue_style('bsb-user-style');
