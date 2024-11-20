@@ -1,5 +1,5 @@
 === BUS STOP BUILDER ===
-Stable tag: v0.10.30
+Stable tag: v0.11.4
 Repository: https://github.com/ldm-keith/bus-stop-builder
 Contributors: Lentini Design and Marketing
 Author link: https://lentinidesign.com/

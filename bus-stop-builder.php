@@ -11,7 +11,7 @@
  * Plugin Name: Bus Stop Builder
  * Plugin URI:
  * Description: A visual tool for designing and enhancing existing bus stops - shortcode [bus-stop-builder]
- * Version:     0.0.2
+ * Version:     0.11.4
  * Author:      Lentini Design and Marketing
  * Author URI:  https://lentinidesign.com
  * Text Domain: bus-stop-builder
