@@ -1,5 +1,5 @@
 === BUS STOP BUILDER ===
-Stable tag: v0.11.4
+Stable tag: v0.4.1201
 Repository: https://github.com/ldm-keith/bus-stop-builder
 Contributors: Lentini Design and Marketing
 Author link: https://lentinidesign.com/
@@ -71,4 +71,7 @@ Before upgrading/updating this plugin, follow these steps:
 = 0.10.30 =
 * First Release under version control (GitHub)
 * This plugin is still in BETA 
+
+= v0.4.1201
+Fix for tool not rendering in newest Firefox
 
