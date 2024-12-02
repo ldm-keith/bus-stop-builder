@@ -53,7 +53,7 @@ Before upgrading/updating this plugin, follow these steps:
 = Upload new version in WordPress Dashboard =
 
 1. Navigate to the 'Add New' in the plugins dashboard
-2. Navigate to the 'Upload' area
+2. Navigate to the 'Upload' area (NOTE: the plugin is 5M, prevented from uploading by php.ini)
 3. Select `bus-stop-builder.zip` from your computer (it may have a version number in the zip file name, eg. bus-stop-builder-v1.2.zip)
 4. Click 'Install Now'
 5. Activate the plugin in the Plugin dashboard
