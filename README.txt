@@ -46,17 +46,20 @@ This section describes how to install the plugin and get it working.
 Before upgrading/updating this plugin, follow these steps:
 1. Deactivate the current version of bus-stop-builder
 2. Rename the old plugin folder (wp-content/plugins/bus-stop-builder_OLD) 
-3. Delete the OLD version folder when the new version ahs been activated
+   --you can use WP File Manager to rename the OLD plugin (https://busstophub.metro.net/wp-admin/admin.php?page=wp_file_manager)
+3. Delete the OLD version folder when the new version has been activated
 
 4. Download the latest version of the plugin: https://github.com/ldm-keith/bus-stop-builder
 
 = Upload new version in WordPress Dashboard =
 
 1. Navigate to the 'Add New' in the plugins dashboard
-2. Navigate to the 'Upload' area (NOTE: the plugin is 5M, prevented from uploading by php.ini)
-3. Select `bus-stop-builder.zip` from your computer (it may have a version number in the zip file name, eg. bus-stop-builder-v1.2.zip)
+2. Navigate to the 'Upload' area
+3. Select your 'bus-stop-builder.xxx.xxx.zip' from your computer (it may have a version number in the zip file name, eg. bus-stop-builder-v1.2.zip)
 4. Click 'Install Now'
 5. Activate the plugin in the Plugin dashboard
+   -- Befire the plugin will activate, you must remove GitHub's version nameing, and rename the installed forlder to:
+   bus-stop-builder.zip
 
 = Using FTP =
 

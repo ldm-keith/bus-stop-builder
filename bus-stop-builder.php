@@ -11,7 +11,7 @@
  * Plugin Name: Bus Stop Builder
  * Plugin URI:
  * Description: A visual tool for designing and enhancing existing bus stops - shortcode [bus-stop-builder]
- * Version:     0.4.1201
+ * Version:     0.4.1207
  * Author:      Lentini Design and Marketing
  * Author URI:  https://lentinidesign.com
  * Text Domain: bus-stop-builder
@@ -70,7 +70,7 @@ define( "BSB_GOOGLE_APIKEY", bsb_get_apikey($results) );
 		
 		//NOTE: this script is loaded in the footer.  ALso isn't loaded until jQuuery is loaded
 		wp_enqueue_script( 'bsb-bs-js', "https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js", array('jquery'), null, true );
-        wp_enqueue_script_module('bsb-user-script-module', BSB_DIRECTORY_URL . '/assets/index.js', array(), '1.56' );
+        wp_enqueue_script_module('bsb-user-script-module', BSB_DIRECTORY_URL . '/assets/index.js', array(), '0.4.1207' );
 		wp_enqueue_script('bsb-custom-script-module', BSB_DIRECTORY_URL . '/assets/custom.js', array(), '0.88' );
 		wp_enqueue_script('bsb-amenities', home_url() ."/wp-json/".plugin_basename(BSB_DIRECTORY). '/v1/amenities', array(), '0.2' );
         wp_enqueue_script( 'ajax-script', BSB_DIRECTORY_URL. '/js/bsb_ajax.js', array('jquery') );
@@ -152,6 +152,7 @@ REPLACE(p.post_content, '\\\"', '\\\\\\\"')  AS description,
 pm.meta_value AS model_url, 
 pmt.meta_value AS thumb_url,
 pms.meta_value AS size_factor
+,REPLACE(pmfs.meta_value, '\\\"', '\\\\\\\"') AS file_size
 
 FROM wp_posts p
 INNER JOIN wp_term_relationships r ON r.object_id = p.ID
@@ -160,6 +161,7 @@ INNER JOIN wp_term_taxonomy tx ON tx.term_id = t.term_id AND tx.parent IN (selec
 INNER JOIN wp_postmeta pms ON p.ID = pms.post_id AND pms.meta_key = 'size_factor'
 INNER JOIN wp_postmeta pm ON p.ID = pm.post_id AND pm.meta_key = '_wp_attached_file'
 INNER JOIN wp_postmeta pmt ON pmt.meta_key = '_wp_attached_file' AND pmt.post_id IN (select meta_value from wp_postmeta where post_id = p.ID and meta_key = '_thumbnail_id' )
+INNER JOIN wp_postmeta pmfs ON p.ID = pmfs.post_id AND pmfs.meta_key = '_wp_attachment_metadata'
 where p.post_type = 'attachment'
 AND p.post_mime_type = 'model/glb-binary'
 AND p.post_status <> 'trash'
@@ -264,7 +266,7 @@ function bsb_get_amenity_reults($results){
 	//if( $size_factor = 3 ) $size_factor = 0;
 	$desc= preg_replace('(\n|\r\n)', "<br>", $row->description);
 	$alt_text = esc_attr($row->title);
-	$model =  "{id:\"{$row->ID}\",title:\"{$row->title}\",description:\"{$desc}\",thumb_url_full:\"{$row->thumb_url}\",model_url_full:\"{$row->model_url}\",alt_text:\"{$alt_text}\",size_factor:\"{$size_factor}\"}";
+	$model =  "{id:\"{$row->ID}\",title:\"{$row->title}\",description:\"{$desc}\",thumb_url_full:\"{$row->thumb_url}\",model_url_full:\"{$row->model_url}\",alt_text:\"{$alt_text}\",size_factor:\"{$size_factor}\",glb_file_size:\"{$row->file_size}\"}";
     
 	$cat_current = $row->category;
 	if( $cat_last !=  $cat_current ){ //start of new category
