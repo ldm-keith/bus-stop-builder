@@ -1,4 +1,5 @@
 === BUS STOP BUILDER ===
+This Tag: v0.4.1209
 Stable tag: v0.4.1201
 Repository: https://github.com/ldm-keith/bus-stop-builder
 Contributors: Lentini Design and Marketing
@@ -27,7 +28,8 @@ Considerations for ADA compliance, safety, amenity size and dimension should alw
 
 
 = DEPENDENCIES =
-This plugin relies on: 
+This plugin relies on:
+- Elementor Plugin,
 - Elementor PRO, 
 - Elementor Hello theme, 
 - "hello-theme-child-ldm" (custom child theme: https://github.com/ldm-keith/hello-theme-child-ldm)
@@ -58,7 +60,7 @@ Before upgrading/updating this plugin, follow these steps:
 3. Select your 'bus-stop-builder.xxx.xxx.zip' from your computer (it may have a version number in the zip file name, eg. bus-stop-builder-v1.2.zip)
 4. Click 'Install Now'
 5. Activate the plugin in the Plugin dashboard
-   -- Befire the plugin will activate, you must remove GitHub's version nameing, and rename the installed forlder to:
+   -- Before the plugin will activate, you must remove GitHub's version nameing, and rename the installed forlder to:
    bus-stop-builder.zip
 
 = Using FTP =
@@ -77,4 +79,15 @@ Before upgrading/updating this plugin, follow these steps:
 
 = v0.4.1201
 Fix for tool not rendering in newest Firefox
+
+
+= 0.04.1211.2
+Removed unneeded large development GLB 3d model files
+
+= v0.4.1207
+Removed the dependency of scalefactor and implemented an automated scaling mechanism that scales the model to be 50
+DO NOT RELEASE
+
+= v0.4.1209
+Re-implemented Scale_factor for 1,2,3 int values only
 

@@ -2,29 +2,32 @@
 
 /**
  *
- * @package     Bus Stop Builder
+ * @package     BusStopBuilder
  * @author      Lentini Design and Marketing
  * @copyright   2024 Lentini Design and Marketing
- * @license     
+ * @license     GPLv3 or later
  *
  * @wordpress-plugin
  * Plugin Name: Bus Stop Builder
- * Plugin URI:
+ * Plugin URI:  https://lentinidesign.com/contact/
  * Description: A visual tool for designing and enhancing existing bus stops - shortcode [bus-stop-builder]
- * Version:     0.4.1207
  * Author:      Lentini Design and Marketing
  * Author URI:  https://lentinidesign.com
  * Text Domain: bus-stop-builder
- * License:     
- * License URI: 
+ * Requires at least: 6.5
+ * Tested up to:      6.7
+ * License:      GPLv3 or later
+ * License URI:  http://www.gnu.org/licenses/gpl-3.0.html
+ * Requires PHP: 7.4 or later
+ * Update URI:  https://github.com/ldm-keith/bus-stop-builder
  *
+ * Version:     0.4.1209
  */
+define( "BSB_VERSION", "0.4.1209" );
 
 // Block direct access to file
 defined( 'ABSPATH' ) or die( 'Not Authorized!' );
 
-
-	
 
 // Plugin Defines
 define( "BSB_FILE", __FILE__ );
@@ -63,16 +66,16 @@ define( "BSB_GOOGLE_APIKEY", bsb_get_apikey($results) );
 		wp_register_script( 'bsb-google-maps', "https://maps.googleapis.com/maps/api/js?key=" . BSB_GOOGLE_APIKEY . "&v=weekly&libraries=places&loading=async", array(), null );
         
 		
-		wp_register_style( 'bsb-user-style', BSB_DIRECTORY_URL . '/assets/index.css', array(), '1.01' );
+		wp_register_style( 'bsb-user-style', BSB_DIRECTORY_URL . '/assets/index.css', array(), BSB_VERSION  );
         
 		wp_enqueue_script('bsb-google-maps');
 		wp_enqueue_style('bsb-bs-css','https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css', array(), null);
 		
 		//NOTE: this script is loaded in the footer.  ALso isn't loaded until jQuuery is loaded
 		wp_enqueue_script( 'bsb-bs-js', "https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js", array('jquery'), null, true );
-        wp_enqueue_script_module('bsb-user-script-module', BSB_DIRECTORY_URL . '/assets/index.js', array(), '0.4.1207' );
-		wp_enqueue_script('bsb-custom-script-module', BSB_DIRECTORY_URL . '/assets/custom.js', array(), '0.88' );
-		wp_enqueue_script('bsb-amenities', home_url() ."/wp-json/".plugin_basename(BSB_DIRECTORY). '/v1/amenities', array(), '0.2' );
+        wp_enqueue_script_module('bsb-user-script-module', BSB_DIRECTORY_URL . '/assets/index.js', array(), BSB_VERSION );
+		wp_enqueue_script('bsb-custom-script-module', BSB_DIRECTORY_URL . '/assets/custom.js', array(), BSB_VERSION  );
+		wp_enqueue_script('bsb-amenities', home_url() ."/wp-json/".plugin_basename(BSB_DIRECTORY). '/v1/amenities', array(), BSB_VERSION  );
         wp_enqueue_script( 'ajax-script', BSB_DIRECTORY_URL. '/js/bsb_ajax.js', array('jquery') );
 		wp_enqueue_style('bsb-user-style');
 		
@@ -264,6 +267,9 @@ function bsb_get_amenity_reults($results){
     $size_factor = $row->size_factor;
 	//if( $size_factor = 1 ) $size_factor = 3;
 	//if( $size_factor = 3 ) $size_factor = 0;
+	$size_factor = (int)  $size_factor;
+	if( $size_factor < 1 ) $size_factor = 1;
+	if( $size_factor > 3 ) $size_factor = 3;
 	$desc= preg_replace('(\n|\r\n)', "<br>", $row->description);
 	$alt_text = esc_attr($row->title);
 	$model =  "{id:\"{$row->ID}\",title:\"{$row->title}\",description:\"{$desc}\",thumb_url_full:\"{$row->thumb_url}\",model_url_full:\"{$row->model_url}\",alt_text:\"{$alt_text}\",size_factor:\"{$size_factor}\",glb_file_size:\"{$row->file_size}\"}";
