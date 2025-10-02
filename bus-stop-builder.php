@@ -21,13 +21,15 @@
  * Requires PHP: 7.4 or later
  * Update URI:  https://github.com/ldm-keith/bus-stop-builder
  *
- * Version:     0.4.1209
+ * Version:     0.5.0731
  */
-define( "BSB_VERSION", "0.4.1209" );
+define( "BSB_VERSION", "0.5.0731" );
 
 // Block direct access to file
 defined( 'ABSPATH' ) or die( 'Not Authorized!' );
 
+
+	
 
 // Plugin Defines
 define( "BSB_FILE", __FILE__ );
@@ -67,6 +69,7 @@ define( "BSB_GOOGLE_APIKEY", bsb_get_apikey($results) );
         
 		
 		wp_register_style( 'bsb-user-style', BSB_DIRECTORY_URL . '/assets/index.css', array(), BSB_VERSION  );
+		wp_register_style( 'bsb-ldm-style',  BSB_DIRECTORY_URL . '/js/bsb_ajax.css',  array(), BSB_VERSION  );
         
 		wp_enqueue_script('bsb-google-maps');
 		wp_enqueue_style('bsb-bs-css','https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css', array(), null);
@@ -76,8 +79,9 @@ define( "BSB_GOOGLE_APIKEY", bsb_get_apikey($results) );
         wp_enqueue_script_module('bsb-user-script-module', BSB_DIRECTORY_URL . '/assets/index.js', array(), BSB_VERSION );
 		wp_enqueue_script('bsb-custom-script-module', BSB_DIRECTORY_URL . '/assets/custom.js', array(), BSB_VERSION  );
 		wp_enqueue_script('bsb-amenities', home_url() ."/wp-json/".plugin_basename(BSB_DIRECTORY). '/v1/amenities', array(), BSB_VERSION  );
-        wp_enqueue_script( 'ajax-script', BSB_DIRECTORY_URL. '/js/bsb_ajax.js', array('jquery') );
+        wp_enqueue_script( 'ajax-script', BSB_DIRECTORY_URL. '/js/bsb_ajax.js', array('jquery'), BSB_VERSION );
 		wp_enqueue_style('bsb-user-style');
+		wp_enqueue_style('bsb-ldm-style');
 		
 		// this is output on rest /amenities JS page
 		//wp_add_inline_script('bsb-amenities', 
@@ -168,7 +172,7 @@ INNER JOIN wp_postmeta pmfs ON p.ID = pmfs.post_id AND pmfs.meta_key = '_wp_atta
 where p.post_type = 'attachment'
 AND p.post_mime_type = 'model/glb-binary'
 AND p.post_status <> 'trash'
-order by category, title, description;
+order by category, title, description, ID;
 ";
 
 // v 0.2
@@ -267,9 +271,9 @@ function bsb_get_amenity_reults($results){
     $size_factor = $row->size_factor;
 	//if( $size_factor = 1 ) $size_factor = 3;
 	//if( $size_factor = 3 ) $size_factor = 0;
-	$size_factor = (int)  $size_factor;
-	if( $size_factor < 1 ) $size_factor = 1;
-	if( $size_factor > 3 ) $size_factor = 3;
+	//$size_factor = (int)  $size_factor;
+	//if( $size_factor < 1 ) $size_factor = 1;
+	//if( $size_factor > 4 ) $size_factor = 4;
 	$desc= preg_replace('(\n|\r\n)', "<br>", $row->description);
 	$alt_text = esc_attr($row->title);
 	$model =  "{id:\"{$row->ID}\",title:\"{$row->title}\",description:\"{$desc}\",thumb_url_full:\"{$row->thumb_url}\",model_url_full:\"{$row->model_url}\",alt_text:\"{$alt_text}\",size_factor:\"{$size_factor}\",glb_file_size:\"{$row->file_size}\"}";

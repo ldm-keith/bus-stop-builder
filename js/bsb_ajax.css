@@ -1,0 +1,182 @@
+/** 
+ * [LDM] - CSS
+ * BSB builder tool CSS - extend or override css in assets/index.css
+ * 
+ */
+
+/**
+ *  BSB error notice popups (all 3 pages)
+ *  
+ */
+/* bground mask container */
+.absolute.z-\[2000\] {}
+/* Popup Div */
+.absolute .w-\[25vw\].h-\[30vh\].bg-white.rounded-lg {}
+/* OK button */
+.absolute .w-\[25vw\].h-\[30vh\].bg-white.rounded-lg button {padding: .5rem 1rem;width:auto;height:auto}
+
+/**
+ * BSB Page 1 "Map"  .bsb_map_container
+ */
+.bsb_map_container {}
+
+/**
+ * BSB Page 2 "Builder"  .bsb_builder_container
+ */
+.bsb_builder_container {}
+
+/* "Finalize & Save" Form (in page footer)
+ * Style this in Gravity Forms "Save Design" form ID:1.
+ * also the thank you popup.   
+ */
+#formModal {}
+
+/**
+ * BSB Page 3 "viewer"  .bsb_viewer_container
+ */
+.bsb_viewer_container {}
+.bsb_viewer_container #canvas-amenity-flex {}
+.bsb_viewer_container #canvas{}
+.bsb_viewer_container #bsb_amenities_list_container {}
+
+.bsb_viewer_container #canvas.flex-1{
+ flex-grow: 0;
+ flex-shrink: 1;
+ flex-basis: 0%;
+}
+
+/* small screens, vertical stack divs (canvas and amenities)*/
+@media (max-width:980px){
+ #canvas-amenity-flex {
+	flex-direction: column;
+  }
+}
+/** [Viewer Page] - Amenities Added List */
+#bsb_amenity_list_items_div_bg {display: table;border-spacing:0 10px;border-collapse: separate;}
+@media (min-width:980px){ #bsb_amenity_list_items_div_bg {max-width: 33vw;}}
+.bsb_amenity_list_items {display: table-row;}
+.bsb_amenity_list_items .bsb_acc_viewer_img {max-width:64px !important; border-radius:5px; box-shadow:1px 1px 2px 2px silver}
+.bsb_amenity_list_items .bsb_acc_viewer_img {display: table-cell;vertical-align: top;margin:10px;}
+.bsb_amenity_list_items .bsb_detail_container {display: table-cell;vertical-align: top;padding-left: 10px !important;padding-bottom: 10px;}
+.bsb_amenity_list_items .bsb_cat_title {display: block;font-size:smaller;opacity:0.6;}
+.bsb_amenity_list_items .bsb_cat_title:after {content:' - '}
+.bsb_amenity_list_items .bsb_acc_title:after {content:' - '}
+
+
+/** [Builder page] - Amenities Added icon list container */
+.bsb_builder_added_icons {
+	  height:auto;
+	  max-width:85vh; /* same width as canvas */
+}
+/* Amenities Added - Header text */
+.bsb_builder_added_icons:has(.bsb_builder_added_icon):before {
+	content:'Amenities added (click to highlight):'; 
+	display:block;font-size:13px;margin-left:5px;
+}
+/* Amenities Added - Icons*/
+.bsb_builder_added_icons .bsb_builder_added_icon{
+	display:inline;
+	height:64px;
+	width:auto;
+	max-width: 64px !important;
+	margin:5px;
+	border-radius: 5px;
+	box-shadow: 1px 1px 2px 2px silver;
+}
+
+/* Resize Builder container div when icons are added below the canvas - size for content, not vh  */
+.bsb_builder_container .viewer .h-\[calc\(100vh-2\.5rem\)\]:has(.bsb_builder_added_icon){
+	height:auto !important;
+}
+
+/* Re-enable Builder canvas to resize with browser vh|vw - use min() for landscape|portrait */
+.bsb_builder_container .viewer .bg-black\/20 { 
+	max-height:min(85vh,85vw); 
+	min-height:min(85vh,85vw); 
+	width:auto !important;
+}
+/** Viewer page - Canvas - size with browser vh|vw min()*/
+.bsb_viewer_container #canvas .viewer-canvas
+{ 
+	max-height:min(85vh,85vw); 
+	min-height:min(85vh,85vw); 
+	max-width:min(85vh,85vw); 
+	min-width:min(85vh,85vw);
+	margin: auto;
+}
+/* Map page */
+x.bsb_map_container {/*whole window*/}
+x.map-container{/*both map and street*/}
+x.map-container div:first-child {}
+x.map-container div[data-testid="map"]{}
+x@media (min-width:1001px){
+	.map-container {	
+		max-height:min(42.5vh,42.5vw); 
+		min-height:min(42.5vh,42.5vw); 
+	}
+	.map-container #pano,
+	.map-container div[data-testid="map"]
+	{
+		max-height:min(42.5vh,42.5vw); 
+		min-height:min(42.5vh,42.5vw); 
+		max-width:min(42.5vh,42.5vw); 
+		min-width:min(42.5vh,42.5vw);
+	}
+}
+x@media (max-width:1000px){
+	x.map-container {	
+		max-height:min(42.5vh,42.5vw); 
+		min-height:min(42.5vh,42.5vw); 
+	}
+	.map-container #pano,
+	.map-container div[data-testid="map"]
+	{
+	max-height:min(85vh,85vw); 
+	min-height:min(85vh,85vw); 
+	max-width:min(85vh,85vw); 
+	min-width:min(85vh,85vw);
+	margin: auto;
+	}
+}
+X.bsb_map_container .map-container .h-\[calc\(100vh-100px\)\] /* map and street view need to handled differently */
+{
+
+}
+/* Amenity lib - size like canvas */
+body .bsb_sidebar_container {
+	height: max-content !important;
+	max-height:min(85vh,85vw) !important;
+	min-height:min(85vh,85vw) !important;
+	max-width: 80vw !important; /* on mobile */
+	z-index:1000;
+	border-radius: 0;
+	top:auto !important;
+	transform:none !important;
+}
+/* model control box - z-index is higher than amenitiy list, can't add items on mobile */
+@media (max-width:1279px) {
+ .bsb_builder_container .viewer .bg-black\/20 div[style*='16771398'] {
+	z-index:999 !important;
+ }
+}
+/* Amenity List - squeeze on mobile */
+@media (max-width:400px) {
+ .bsb_add_btn { font-size:0 !important;}
+ .bsb_add_btn:before {content:'+';font-size:1.5rem;padding:0 10px;}
+ .bsb_acc_child {padding:1vw !important;}
+ .bsb_acc_children_container{padding:3vw !important}
+ .bsb_cat_desc {top:1.5rem; left:-28vw;width:60vw}
+}
+@media (max-width: 500px) {
+  /* Viewer page */
+  #bsb_amenities_list_container .bsb_acc_text {display: inline;}
+}
+
+/** Tablet Sizes 
+768 x 1024
+810 x 1080
+820 x 1180
+1280 x 800
+800 x 1280
+1024 x 1366
+*/
