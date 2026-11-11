@@ -21,9 +21,9 @@
  * Requires PHP: 7.4 or later
  * Update URI:  https://github.com/ldm-keith/bus-stop-builder
  *
- * Version:     0.5.0731
+ * Version:     1.6.1111
  */
-define( "BSB_VERSION", "0.5.0731" );
+define( "BSB_VERSION", "1.6.1111" );
 
 // Block direct access to file
 defined( 'ABSPATH' ) or die( 'Not Authorized!' );
